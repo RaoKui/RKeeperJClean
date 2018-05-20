@@ -53,11 +53,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),taskFragment,R.id.contentFrame);
         }
 
-        mTasksPresenter = new TasksPresenter(
-                Injection
-        )
-
-
     }
 
     private void setUpDrawerContent(NavigationView navigationView) {
