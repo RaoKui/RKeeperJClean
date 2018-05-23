@@ -6,6 +6,9 @@ import android.view.View;
 import com.rk.rkeeper.R;
 import com.rk.rkeeper.base.BaseFragment;
 import com.rk.rkeeper.task.TaskContract;
+import com.rk.rkeeper.task.domain.Task;
+
+import java.util.List;
 
 public class TaskFragment extends BaseFragment implements TaskContract.View {
 
@@ -25,6 +28,91 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public void setPresenter(TaskContract.Presenter presenter) {
+
+    }
+
+    @Override
+    public void setLoadingIndicator(boolean active) {
+
+    }
+
+    @Override
+    public void showTasks(List<Task> tasks) {
+
+    }
+
+    @Override
+    public void showAddTask() {
+
+    }
+
+    @Override
+    public void showTaskDetailsUi(String taskId) {
+
+    }
+
+    @Override
+    public void showTaskMarkedComplete() {
+
+    }
+
+    @Override
+    public void showTaskMarkedActive() {
+
+    }
+
+    @Override
+    public void showCompletedTasksCleared() {
+
+    }
+
+    @Override
+    public void showLoadingTasksError() {
+
+    }
+
+    @Override
+    public void showNoTasks() {
+
+    }
+
+    @Override
+    public void showActiveFilterLabel() {
+
+    }
+
+    @Override
+    public void showCompletedFilterLabel() {
+
+    }
+
+    @Override
+    public void showAllFilterLabel() {
+
+    }
+
+    @Override
+    public void showNoActiveTasks() {
+
+    }
+
+    @Override
+    public void showNoCompletedTasks() {
+
+    }
+
+    @Override
+    public void showSuccessfullySavedMessage() {
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public void showFilteringPopUpMenu() {
 
     }
 }

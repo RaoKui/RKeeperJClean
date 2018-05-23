@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar!=null){
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         if (mNavigationView!=null){
