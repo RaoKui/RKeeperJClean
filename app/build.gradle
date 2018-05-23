@@ -36,5 +36,5 @@ dependencies {
 
     implementation 'com.android.support:design:27.1.1'
 
-    compile "com.google.guava:guava:$rootProject.guavaVersion"
+    implementation "com.google.guava:guava:$rootProject.guavaVersion"
 }

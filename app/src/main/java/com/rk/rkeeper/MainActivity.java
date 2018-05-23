@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.rk.rkeeper.task.TasksPresenter;
+import com.rk.rkeeper.task.usecase.GetTasks;
 import com.rk.rkeeper.task.view.TaskFragment;
 import com.rk.rkeeper.utils.ActivityUtils;
 
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
             taskFragment = TaskFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),taskFragment,R.id.contentFrame);
         }
+
+        mTasksPresenter = new TasksPresenter(UseCaseHandler.getInstance(),
+                taskFragment,
+                new GetTasks()
+                );
 
     }
 
