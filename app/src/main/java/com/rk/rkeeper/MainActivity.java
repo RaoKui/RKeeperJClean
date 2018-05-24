@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),taskFragment,R.id.contentFrame);
         }
 
-        mTasksPresenter = new TasksPresenter(UseCaseHandler.getInstance(),
-                taskFragment,
-                new GetTasks()
-                );
+//        mTasksPresenter = new TasksPresenter(UseCaseHandler.getInstance(),
+//                taskFragment,
+//                new GetTasks()
+//                );
 
     }
 

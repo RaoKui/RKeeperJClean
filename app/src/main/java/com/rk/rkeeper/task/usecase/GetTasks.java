@@ -54,7 +54,7 @@ public class GetTasks extends UseCase<GetTasks.RequestValues, GetTasks.ResponseV
         private final boolean mForceUpdate;
 
         public RequestValues(boolean forceUpdate, @NonNull TaskFilterType currentFiltering) {
-            this.mCurrentFiltering = checkNotNull(currentFiltering, "currentFiltering cannot benull");
+            this.mCurrentFiltering = checkNotNull(currentFiltering, "currentFiltering cannot be null");
             this.mForceUpdate = forceUpdate;
         }
 

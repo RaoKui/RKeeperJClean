@@ -1,6 +1,8 @@
 package com.rk.rkeeper.task.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 
 import com.rk.rkeeper.R;
@@ -10,15 +12,30 @@ import com.rk.rkeeper.task.domain.Task;
 
 import java.util.List;
 
+import butterknife.BindView;
+
 public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     public static TaskFragment newInstance() {
         return new TaskFragment();
     }
 
+    @BindView(R.id.fab_add_task)
+    FloatingActionButton mFabAddTask;
+
     @Override
     protected void initView(View mRootView, Bundle savedInstanceState) {
+        mFabAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toAddTask();
+            }
+        });
+    }
 
+    private void toAddTask() {
+        Intent intent = new Intent(getContext(), AddTaskActivity.class);
+        startActivity(intent);
     }
 
     @Override
