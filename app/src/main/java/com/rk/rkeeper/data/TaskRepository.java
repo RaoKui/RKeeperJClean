@@ -7,6 +7,7 @@ import com.rk.rkeeper.task.domain.Task;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +94,14 @@ public class TaskRepository implements TaskDataSource {
 
     @Override
     public void saveTask(@NonNull Task task) {
+        checkNotNull(task);
+        mTaskRemoteDataSource.saveTask(task);
+        mTaskLocalDataSource.saveTask(task);
 
+        if (mCachedTasks == null){
+            mCachedTasks = new LinkedHashMap<>();
+        }
+            mCachedTasks.put(task.getId(),task);
     }
 
     @Override
