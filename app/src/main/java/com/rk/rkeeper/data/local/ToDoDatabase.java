@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.rk.rkeeper.task.domain.Task;
 
-@Database(entities = {Task.class}, version = 1)
+@Database(entities = {Task.class}, version = 1, exportSchema = false)
 public abstract class ToDoDatabase extends RoomDatabase {
     private static ToDoDatabase INSTANCE;
 

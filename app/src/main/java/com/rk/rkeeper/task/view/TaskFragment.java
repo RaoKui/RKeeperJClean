@@ -3,16 +3,20 @@ package com.rk.rkeeper.task.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 
 import com.rk.rkeeper.R;
 import com.rk.rkeeper.base.BaseFragment;
 import com.rk.rkeeper.task.TaskContract;
+import com.rk.rkeeper.task.TasksPresenter;
 import com.rk.rkeeper.task.domain.Task;
 
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TaskFragment extends BaseFragment implements TaskContract.View {
 
@@ -23,6 +27,8 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     @BindView(R.id.fab_add_task)
     FloatingActionButton mFabAddTask;
 
+    private TaskContract.Presenter mPresenter;
+
     @Override
     protected void initView(View mRootView, Bundle savedInstanceState) {
         mFabAddTask.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +37,13 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 toAddTask();
             }
         });
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.loadTasks(true);
     }
 
     private void toAddTask() {
@@ -45,7 +58,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public void setPresenter(TaskContract.Presenter presenter) {
-
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -55,7 +68,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public void showTasks(List<Task> tasks) {
-
+        for (Task task :
+                tasks) {
+            Log.d("tag", "showTasks: " + task.toString());
+        }
     }
 
     @Override

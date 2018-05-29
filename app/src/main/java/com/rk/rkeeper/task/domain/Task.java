@@ -7,6 +7,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.common.base.Strings;
+
 import java.util.UUID;
 
 @Entity(tableName = "tasks")
@@ -107,5 +109,10 @@ public class Task {
     @Override
     public String toString() {
         return "Task with title " + mTitle;
+    }
+
+    public boolean isEmpty() {
+        return Strings.isNullOrEmpty(mTitle) &&
+                Strings.isNullOrEmpty(mDescription);
     }
 }

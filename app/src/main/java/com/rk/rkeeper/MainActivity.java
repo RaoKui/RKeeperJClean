@@ -10,10 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.rk.rkeeper.data.TaskRepository;
+import com.rk.rkeeper.data.local.TaskLocalDataSource;
+import com.rk.rkeeper.data.local.ToDoDatabase;
+import com.rk.rkeeper.data.remote.TaskRemoteDataSource;
 import com.rk.rkeeper.task.TasksPresenter;
+import com.rk.rkeeper.task.domain.filter.FilterFactory;
 import com.rk.rkeeper.task.usecase.GetTasks;
 import com.rk.rkeeper.task.view.TaskFragment;
 import com.rk.rkeeper.utils.ActivityUtils;
+import com.rk.rkeeper.utils.AppExecutors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,48 +44,51 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar!=null){
+        if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
-        if (mNavigationView!=null){
+        if (mNavigationView != null) {
             setUpDrawerContent(mNavigationView);
         }
 
         TaskFragment taskFragment =
                 (TaskFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
-        if (taskFragment==null){
+        if (taskFragment == null) {
             taskFragment = TaskFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),taskFragment,R.id.contentFrame);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), taskFragment, R.id.contentFrame);
         }
 
-//        mTasksPresenter = new TasksPresenter(UseCaseHandler.getInstance(),
-//                taskFragment,
-//                new GetTasks()
-//                );
+        ToDoDatabase toDoDatabase = ToDoDatabase.getInstance(this);
+        mTasksPresenter = new TasksPresenter(UseCaseHandler.getInstance(),
+                taskFragment,
+                new GetTasks(TaskRepository.getInstance(TaskRemoteDataSource.getInstance(),
+                        TaskLocalDataSource.getInstance(new AppExecutors(),
+                                toDoDatabase.taskDao())), new FilterFactory())
+        );
 
     }
 
     private void setUpDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.list_navigation_menu_item:
-                        break;
-                    case R.id.statistics_navigation_menu_item:
-                        break;
-                        default:
-                            break;
-                }
-                item.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                return true;
-            }
-        });
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.list_navigation_menu_item:
+                                break;
+                            case R.id.statistics_navigation_menu_item:
+                                break;
+                            default:
+                                break;
+                        }
+                        item.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
     }
 }

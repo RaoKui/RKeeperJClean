@@ -19,6 +19,13 @@ public class TaskRemoteDataSource implements TaskDataSource {
 
     private static final Map<String, Task> TASKS_SERVICE_DATA;
 
+    public static TaskRemoteDataSource getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new TaskRemoteDataSource();
+        }
+        return INSTANCE;
+    }
+
     static {
         TASKS_SERVICE_DATA = new LinkedHashMap<>(2);
         addTask("Build tower in Pisa", "Ground looks good, no foundation work required.");
