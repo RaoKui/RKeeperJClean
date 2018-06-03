@@ -1,6 +1,7 @@
 package com.rk.rkeeper.task;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.rk.rkeeper.UseCase;
 import com.rk.rkeeper.UseCaseHandler;
@@ -16,6 +17,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TasksPresenter implements TaskContract.Presenter {
 
+    private final String TAG = getClass().getSimpleName();
     private UseCaseHandler mUseCaseHandler;
     private TaskContract.View mTasksView;
     private GetTasks mGetTasks;
@@ -77,7 +79,7 @@ public class TasksPresenter implements TaskContract.Presenter {
 
                     @Override
                     public void onError() {
-
+                        Log.d(TAG, "onError: ");
                     }
                 });
     }

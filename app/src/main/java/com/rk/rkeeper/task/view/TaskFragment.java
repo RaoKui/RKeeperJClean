@@ -3,6 +3,8 @@ package com.rk.rkeeper.task.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
@@ -20,12 +22,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TaskFragment extends BaseFragment implements TaskContract.View {
 
+    private TasksAdapter mTasksAdapter;
+
     public static TaskFragment newInstance() {
         return new TaskFragment();
     }
 
     @BindView(R.id.fab_add_task)
     FloatingActionButton mFabAddTask;
+    @BindView(R.id.rv_task)
+    RecyclerView mRvTasks;
 
     private TaskContract.Presenter mPresenter;
 
@@ -37,6 +43,12 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 toAddTask();
             }
         });
+
+        mTasksAdapter = new TasksAdapter(getContext().getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRvTasks.setLayoutManager(linearLayoutManager);
+        mRvTasks.setAdapter(mTasksAdapter);
 
     }
 
@@ -68,10 +80,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public void showTasks(List<Task> tasks) {
-        for (Task task :
-                tasks) {
-            Log.d("tag", "showTasks: " + task.toString());
-        }
+        mTasksAdapter.setData(tasks);
     }
 
     @Override
@@ -141,7 +150,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public boolean isActive() {
-        return false;
+        return isAdded();
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.rk.rkeeper.data.local.TaskLocalDataSource;
 import com.rk.rkeeper.data.local.ToDoDatabase;
 import com.rk.rkeeper.data.remote.TaskRemoteDataSource;
 import com.rk.rkeeper.task.TasksPresenter;
+import com.rk.rkeeper.task.domain.TaskFilterType;
 import com.rk.rkeeper.task.domain.filter.FilterFactory;
 import com.rk.rkeeper.task.usecase.GetTasks;
 import com.rk.rkeeper.task.view.TaskFragment;
@@ -25,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -62,13 +65,17 @@ public class MainActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), taskFragment, R.id.contentFrame);
         }
 
-        ToDoDatabase toDoDatabase = ToDoDatabase.getInstance(this);
-        mTasksPresenter = new TasksPresenter(UseCaseHandler.getInstance(),
+        mTasksPresenter = new TasksPresenter(
+                Injection.provideUseCaseHandler(),
                 taskFragment,
-                new GetTasks(TaskRepository.getInstance(TaskRemoteDataSource.getInstance(),
-                        TaskLocalDataSource.getInstance(new AppExecutors(),
-                                toDoDatabase.taskDao())), new FilterFactory())
+                Injection.provideGetTasks(getApplicationContext())
         );
+
+        if (savedInstanceState != null) {
+            TaskFilterType currentFiltering = (TaskFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
+            mTasksPresenter.setFiltering(currentFiltering);
+        }
+
 
     }
 
