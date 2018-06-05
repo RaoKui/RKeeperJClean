@@ -74,8 +74,14 @@ public class TaskLocalDataSource implements TaskDataSource {
     }
 
     @Override
-    public void completeTask(@NonNull Task task) {
-
+    public void completeTask(@NonNull final Task task) {
+        Runnable completedRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mTaskDao.updateCompleted(task.getId(), true);
+            }
+        };
+        mAppExecutors.diskIO().execute(completedRunnable);
     }
 
     @Override

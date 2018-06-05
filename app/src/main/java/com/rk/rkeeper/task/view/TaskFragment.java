@@ -49,6 +49,22 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRvTasks.setLayoutManager(linearLayoutManager);
         mRvTasks.setAdapter(mTasksAdapter);
+        mTasksAdapter.setTaskItemListener(new TasksAdapter.TaskItemListener() {
+            @Override
+            public void onTaskClick(Task task) {
+
+            }
+
+            @Override
+            public void onTaskCheck(Task task) {
+                mPresenter.completeTask(task);
+            }
+
+            @Override
+            public void onTaskUncheck(Task task) {
+
+            }
+        });
 
     }
 

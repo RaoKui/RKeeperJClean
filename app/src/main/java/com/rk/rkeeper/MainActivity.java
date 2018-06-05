@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         mTasksPresenter = new TasksPresenter(
                 Injection.provideUseCaseHandler(),
                 taskFragment,
-                Injection.provideGetTasks(getApplicationContext())
+                Injection.provideGetTasks(getApplicationContext()),
+                Injection.provideCompleteTasks(getApplicationContext())
         );
 
         if (savedInstanceState != null) {

@@ -8,6 +8,7 @@ import com.rk.rkeeper.data.local.TaskLocalDataSource;
 import com.rk.rkeeper.data.local.ToDoDatabase;
 import com.rk.rkeeper.data.remote.TaskRemoteDataSource;
 import com.rk.rkeeper.task.domain.filter.FilterFactory;
+import com.rk.rkeeper.task.usecase.CompleteTask;
 import com.rk.rkeeper.task.usecase.GetTasks;
 import com.rk.rkeeper.task.usecase.SaveTask;
 import com.rk.rkeeper.utils.AppExecutors;
@@ -39,9 +40,9 @@ public class Injection {
         return new SaveTask(Injection.provideTasksRepository(context));
     }
 
-//    public static CompleteTask provideCompleteTasks(Context context) {
-//        return new CompleteTask(Injection.provideTasksRepository(context));
-//    }
+    public static CompleteTask provideCompleteTasks(Context context) {
+        return new CompleteTask(Injection.provideTasksRepository(context));
+    }
 //
 //    public static ActivateTask provideActivateTask(Context context) {
 //        return new ActivateTask(Injection.provideTasksRepository(context));

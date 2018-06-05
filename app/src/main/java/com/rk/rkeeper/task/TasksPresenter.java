@@ -7,6 +7,7 @@ import com.rk.rkeeper.UseCase;
 import com.rk.rkeeper.UseCaseHandler;
 import com.rk.rkeeper.task.domain.Task;
 import com.rk.rkeeper.task.domain.TaskFilterType;
+import com.rk.rkeeper.task.usecase.CompleteTask;
 import com.rk.rkeeper.task.usecase.GetTasks;
 
 import java.security.PrivateKey;
@@ -21,6 +22,7 @@ public class TasksPresenter implements TaskContract.Presenter {
     private UseCaseHandler mUseCaseHandler;
     private TaskContract.View mTasksView;
     private GetTasks mGetTasks;
+    private CompleteTask mCompleteTask;
 
     private TaskFilterType mCurrentFiltering = TaskFilterType.ALL_TASKS;
 
@@ -34,11 +36,12 @@ public class TasksPresenter implements TaskContract.Presenter {
 
     public TasksPresenter(@NonNull UseCaseHandler useCaseHandler,
                           @NonNull TaskContract.View view,
-                          @NonNull GetTasks getTasks) {
+                          @NonNull GetTasks getTasks,
+                          @NonNull CompleteTask completeTask) {
         mUseCaseHandler = checkNotNull(useCaseHandler, "useCaseHandler cannot be null");
         mTasksView = checkNotNull(view, "tasksView cannot be null");
         mGetTasks = checkNotNull(getTasks, "getTasks cannot be null");
-
+        mCompleteTask = checkNotNull(completeTask, "completeTask cannot be null");
         mTasksView.setPresenter(this);
     }
 
@@ -53,6 +56,23 @@ public class TasksPresenter implements TaskContract.Presenter {
     public void loadTasks(boolean forceUpdate) {
         loadTask(forceUpdate || mFirstLoad, true);
         mFirstLoad = false;
+    }
+
+    @Override
+    public void completeTask(@NonNull Task task) {
+        checkNotNull(task, "completedTask cannot be null!");
+        mUseCaseHandler.execute(mCompleteTask, new CompleteTask.RequestValues(task.getId()), new UseCase.UseCaseCallback<CompleteTask.ResponseValue>() {
+            @Override
+            public void onSuccess(CompleteTask.ResponseValue response) {
+                mTasksView.showTaskMarkedComplete();
+                loadTask(false, false);
+            }
+
+            @Override
+            public void onError() {
+                mTasksView.showLoadingTasksError();
+            }
+        });
     }
 
     private void loadTask(boolean forceUpdate, final boolean showLoadingUI) {

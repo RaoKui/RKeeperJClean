@@ -1,5 +1,6 @@
 package com.rk.rkeeper.data;
 
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.util.ArrayMap;
 
@@ -119,12 +120,31 @@ public class TaskRepository implements TaskDataSource {
 
     @Override
     public void completeTask(@NonNull Task task) {
+        checkNotNull(task);
+        mTaskRemoteDataSource.completeTask(task);
+        mTaskLocalDataSource.completeTask(task);
 
+        Task completeTask = new Task(task.getTitle(), task.getDescription(), task.getId(), true);
+
+        if (mCachedTasks == null) {
+            mCachedTasks = new LinkedHashMap<>();
+        }
+        mCachedTasks.put(task.getId(), completeTask);
     }
 
     @Override
     public void completeTask(@NonNull String taskId) {
+        checkNotNull(taskId);
+        completeTask(getTaskWithId(taskId));
+    }
 
+    private Task getTaskWithId(@NonNull String id) {
+        checkNotNull(id);
+        if (mCachedTasks == null || mCachedTasks.isEmpty()) {
+            return null;
+        } else {
+            return mCachedTasks.get(id);
+        }
     }
 
     @Override

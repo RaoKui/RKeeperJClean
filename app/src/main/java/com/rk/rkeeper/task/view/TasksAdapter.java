@@ -1,12 +1,15 @@
 package com.rk.rkeeper.task.view;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.rk.rkeeper.R;
@@ -45,8 +48,40 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        Task task = mDataList.get(position);
+        final Task task = mDataList.get(position);
         holder.mTvTitle.setText(task.getTitle());
+        if (task.isCompleted()) {
+            holder.mCheck.setVisibility(View.INVISIBLE);
+            holder.mTvTitle.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            holder.mCheck.setVisibility(View.VISIBLE);
+        }
+
+        holder.mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (mTaskItemListener != null) {
+                        mTaskItemListener.onTaskCheck(task);
+                    }
+                }
+            }
+        });
+    }
+
+    private TaskItemListener mTaskItemListener;
+
+    public void setTaskItemListener(@NonNull TaskItemListener taskItemListener) {
+        checkNotNull(taskItemListener, "taskItemListener cannot be null@");
+        this.mTaskItemListener = taskItemListener;
+    }
+
+    public interface TaskItemListener {
+        void onTaskClick(Task task);
+
+        void onTaskCheck(Task task);
+
+        void onTaskUncheck(Task task);
     }
 
     @Override
