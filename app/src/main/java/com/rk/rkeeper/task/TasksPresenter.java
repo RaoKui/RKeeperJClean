@@ -7,6 +7,7 @@ import com.rk.rkeeper.UseCase;
 import com.rk.rkeeper.UseCaseHandler;
 import com.rk.rkeeper.task.domain.Task;
 import com.rk.rkeeper.task.domain.TaskFilterType;
+import com.rk.rkeeper.task.usecase.ActivateTask;
 import com.rk.rkeeper.task.usecase.CompleteTask;
 import com.rk.rkeeper.task.usecase.GetTasks;
 
@@ -21,8 +22,10 @@ public class TasksPresenter implements TaskContract.Presenter {
     private final String TAG = getClass().getSimpleName();
     private UseCaseHandler mUseCaseHandler;
     private TaskContract.View mTasksView;
+
     private GetTasks mGetTasks;
     private CompleteTask mCompleteTask;
+    private ActivateTask mActivateTask;
 
     private TaskFilterType mCurrentFiltering = TaskFilterType.ALL_TASKS;
 
@@ -37,11 +40,13 @@ public class TasksPresenter implements TaskContract.Presenter {
     public TasksPresenter(@NonNull UseCaseHandler useCaseHandler,
                           @NonNull TaskContract.View view,
                           @NonNull GetTasks getTasks,
-                          @NonNull CompleteTask completeTask) {
+                          @NonNull CompleteTask completeTask,
+                          @NonNull ActivateTask activateTask) {
         mUseCaseHandler = checkNotNull(useCaseHandler, "useCaseHandler cannot be null");
         mTasksView = checkNotNull(view, "tasksView cannot be null");
         mGetTasks = checkNotNull(getTasks, "getTasks cannot be null");
         mCompleteTask = checkNotNull(completeTask, "completeTask cannot be null");
+        mActivateTask = checkNotNull(activateTask, "activateTask cannot be null");
         mTasksView.setPresenter(this);
     }
 

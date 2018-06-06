@@ -52,9 +52,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.Holder> {
         holder.mTvTitle.setText(task.getTitle());
         if (task.isCompleted()) {
             holder.mCheck.setVisibility(View.INVISIBLE);
+            holder.mTvTitle.setTextColor(mContext.getResources().getColor(R.color.colorNine));
             holder.mTvTitle.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             holder.mCheck.setVisibility(View.VISIBLE);
+            holder.mTvTitle.setTextColor(mContext.getResources().getColor(R.color.colorThree));
+
         }
 
         holder.mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

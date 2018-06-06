@@ -47,6 +47,8 @@ public interface TaskContract {
         void loadTasks(boolean forceUpdate);
 
         void completeTask(Task task);
+
+        void activateTask(Task task);
     }
 
 }
