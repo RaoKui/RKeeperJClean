@@ -80,6 +80,12 @@ public class TasksPresenter implements TaskContract.Presenter {
         });
     }
 
+    @Override
+    public void activateTask(Task task) {
+
+
+    }
+
     private void loadTask(boolean forceUpdate, final boolean showLoadingUI) {
         if (showLoadingUI) {
             mTasksView.setLoadingIndicator(true);
